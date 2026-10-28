@@ -1,0 +1,23 @@
+{"order": ["gambler", "spy", "house"],
+ "bots": {
+ "gambler": {"edge": "reads direction", "blastRadius": "whole book", "safetyFactor": "size 2% of book (vs ~5% a desk could survive)", "hardRule": "fixed % of current book; contract checks are reject gates",
+  "failures": [
+   {"mode": "losing streak sized up by prior wins (martingale)", "S": 10, "L": 7, "D": 3, "fix": "positionSize(book) only; test proves no history input"},
+   {"mode": "rug: mint authority not revoked", "S": 9, "L": 5, "D": 2, "fix": "gate: reject unless revoked"},
+   {"mode": "rug: freeze authority (honeypot)", "S": 9, "L": 4, "D": 2, "fix": "gate: reject unless revoked"},
+   {"mode": "LP pulled", "S": 9, "L": 5, "D": 6, "fix": "gate: LP burned (PumpSwap/pump.fun) else reject"},
+   {"mode": "top-10 holders dump", "S": 8, "L": 6, "D": 4, "fix": "gate: top-10 share <= 30% else reject"},
+   {"mode": "thin liquidity / slippage", "S": 6, "L": 7, "D": 3, "fix": "gate: liquidity >= $10K; 3% slippage cap"},
+   {"mode": "check data unavailable", "S": 7, "L": 6, "D": 2, "fix": "unknown = reject"}]},
+ "spy": {"edge": "copies wallets", "blastRadius": "per wallet (capped 4% of book)", "safetyFactor": "chase cap 15%", "hardRule": "max 15% chase, mirror exits, cap per wallet, demote after 3 losses",
+  "failures": [
+   {"mode": "latency: copy fills above leader (chase)", "S": 8, "L": 9, "D": 4, "fix": "skip if fill > leader entry +15%, log wallet + lag"},
+   {"mode": "you are the leader's exit liquidity", "S": 8, "L": 6, "D": 7, "fix": "mirror exits; demote after 3 losing copies"},
+   {"mode": "one wallet dominates book", "S": 7, "L": 4, "D": 3, "fix": "per-wallet allocation cap"},
+   {"mode": "cron lag > leader hold time", "S": 6, "L": 8, "D": 5, "fix": "skip leader trades older than 10 min"}]},
+ "house": {"edge": "fee on volume", "blastRadius": "capital + reputation", "safetyFactor": "fee x volume must clear 2 x cost per launch", "hardRule": "fees only, never hold/sell own supply, daily budget, hard stop when fees < cost",
+  "failures": [
+   {"mode": "holding / selling own supply (becoming the rug)", "S": 10, "L": 3, "D": 5, "fix": "no code path exists to hold or sell own supply"},
+   {"mode": "launch costs outrun fees", "S": 7, "L": 8, "D": 4, "fix": "break-even check + hard stop when fees < cost"},
+   {"mode": "unbounded launches", "S": 6, "L": 5, "D": 3, "fix": "daily launch budget (0 = disabled)"}]}
+ }}

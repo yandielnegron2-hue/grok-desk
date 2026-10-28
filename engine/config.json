@@ -1,0 +1,6 @@
+{
+ "gambler": {"bookFraction": 0.02, "minTradeSol": 0.01, "maxOpen": 5, "maxCallAgeSec": 900, "minLiquidityUsd": 10000, "maxTop10Pct": 30, "takeProfitPct": 150, "stopLossPct": -30},
+ "spy": {"maxChasePct": 15, "perWalletCapFraction": 0.04, "demoteAfterLosses": 3, "maxLagSec": 600},
+ "house": {"enabled": false, "dailyLaunchBudget": 0, "feeRate": 0.01, "expectedVolumePerTokenUsd": 0, "costPerLaunchUsd": 5, "safetyFactor": 2, "feesTodayUsd": 0, "costsTodayUsd": 0},
+ "desk": {"dailyLossCapPct": 10, "maxConsecutiveLosses": 3, "liquidityDropExitPct": 50, "feedLagMaxSec": 900, "solReserve": 0.05, "slippageBps": 300, "paperStartSol": 1}
+}
